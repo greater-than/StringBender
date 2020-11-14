@@ -1,2 +1,2 @@
 # String
-Sub-class of str, adds case conversion functions
+Sub-class of Python `str`, adds case conversion functions

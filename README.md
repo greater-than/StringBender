@@ -1,5 +1,5 @@
 # StringBender
-Sub-class of Python `str`, adds case conversion functions
+Sub-class of Python `str` that adds case conversion functions.
 
 ### Table of Contents
 

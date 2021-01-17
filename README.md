@@ -1,4 +1,4 @@
-# SuperString
+# StringBender
 Sub-class of Python `str`, adds case conversion functions
 
 ### Table of Contents
@@ -11,7 +11,7 @@ Sub-class of Python `str`, adds case conversion functions
 
 From the command line:
 ```sh
-pip install superstring
+pip install stringbender
 ```
 
 ## Quick Start

@@ -37,12 +37,12 @@ def get_requirements() -> list:
 
 
 setup_args = {
-    "name": "superstring",
+    "name": "stringbender",
     "version": "0.1.0",
     "description": "A sub-class of str that provides case conversion functions",
     "long_description": get_long_description(),
     "long_description_content_type": "text/markdown",
-    "url": "https://github.com/greater-than/SuperString",
+    "url": "https://github.com/greater-than/StringBender",
     "classifiers": [
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",

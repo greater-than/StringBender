@@ -1,7 +1,7 @@
 from functools import wraps
 from typing import Any, Callable
 
-from superstring import String
+from stringbender import String
 
 
 def camel(func: Callable) -> Callable:

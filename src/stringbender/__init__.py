@@ -1,7 +1,10 @@
 from __future__ import annotations
 
 import re
-from typing import Callable, List, Tuple
+import sys
+from builtins import _FormatMapMapping
+from typing import (Any, Callable, Iterable, Iterator, List, Mapping, Optional,
+                    Sequence, Tuple, Union)
 
 DEFAULT_DELIMITERS: List[str] = [" ", ".", "-", "_", ":", "\\"]
 
@@ -15,8 +18,8 @@ class String(str):
         """[summary]
 
         Args:
-            delimiters (List[str], optional): [description]. Defaults to DEFAULT_DELIMITERS.
-            split_on_first_upper (bool, optional): [description]. Defaults to True.
+            delimiters (List[str], optional): Defaults to DEFAULT_DELIMITERS.
+            split_on_first_upper (bool, optional): Defaults to True.
 
         Returns:
             :
@@ -41,28 +44,21 @@ class String(str):
               delimiter: str = "",
               word_modifier: Callable = None,
               first_word: str = "",
-              last_word: str = "",
-              replace_chars: Tuple[str, str] = None,
-              strip_chars: str = "") -> String:
+              last_word: str = "") -> String:
         """
         Constructs a string based on the specified words
 
         Args:
             words (List[str]): A list of str
-            delimiter (str, optional): [description]. Defaults to "".
-            word_modifier (Callable, optional): [description]. Defaults to None.
-            first_word (str, optional): [description]. Defaults to "".
-            last_word (str, optional): [description]. Defaults to "".
+            delimiter (str, optional): Defaults to "".
+            word_modifier (Callable, optional): Defaults to None.
+            first_word (str, optional): Defaults to "".
+            last_word (str, optional): Defaults to "".
 
         Returns:
             String: [description]
         """
-        s = first_word + delimiter.join(word_modifier(w) if word_modifier else w for w in words) + last_word
-        if replace_chars:
-            s = s.replace(replace_chars[0], replace_chars[1])
-        if strip_chars:
-            s = s.strip(strip_chars)
-        return String(s)
+        return String(first_word + delimiter.join(word_modifier(w) if word_modifier else w for w in words) + last_word)
 
     def camel(self,
               delimiters: List[str] = DEFAULT_DELIMITERS,
@@ -70,8 +66,8 @@ class String(str):
         """[summary]
 
         Args:
-            delimiters (List[str], optional): [description]. Defaults to DEFAULT_DELIMITERS.
-            split_on_first_upper (bool, optional): [description]. Defaults to False.
+            delimiters (List[str], optional): Defaults to DEFAULT_DELIMITERS.
+            split_on_first_upper (bool, optional): Defaults to False.
 
         Returns:
             String: [description]
@@ -80,9 +76,8 @@ class String(str):
         return String.build(
             words=words[1:],
             word_modifier=str.title,
-            first_word=words[0],
-            replace_chars=(" ", "")
-        )
+            first_word=words[0]
+        ).replace(" ", "")
 
     def kebob(self,
               delimiters: List[str] = DEFAULT_DELIMITERS,
@@ -91,9 +86,9 @@ class String(str):
         """[summary]
 
         Args:
-            delimiters (List[str], optional): [description]. Defaults to DEFAULT_DELIMITERS.
-            split_on_first_upper (bool, optional): [description]. Defaults to False.
-            title_case (bool, optional): [description]. Defaults to False.
+            delimiters (List[str], optional): Defaults to DEFAULT_DELIMITERS.
+            split_on_first_upper (bool, optional): Defaults to False.
+            title_case (bool, optional): Defaults to False.
 
         Returns:
             String: [description]
@@ -101,10 +96,8 @@ class String(str):
         return String.build(
             words=self.__words__(delimiters, split_on_first_upper),
             delimiter="-",
-            word_modifier=str.title if title_case else str.lower,
-            replace_chars=(" ", "-"),
-            strip_chars="-"
-        )
+            word_modifier=str.title if title_case else str.lower
+        ).replace(" ", "-").strip("-")
 
     def pascal(self,
                delimiters: List[str] = DEFAULT_DELIMITERS,
@@ -112,16 +105,16 @@ class String(str):
         """[summary]
 
         Args:
-            delimiters (List[str], optional): [description]. Defaults to DEFAULT_DELIMITERS.
-            split_on_first_upper (bool, optional): [description]. Defaults to True.
+            delimiters (List[str], optional): Defaults to DEFAULT_DELIMITERS.
+            split_on_first_upper (bool, optional): Defaults to True.
 
         Returns:
             String: [description]
         """
         return String.build(
             words=self.__words__(delimiters, split_on_first_upper),
-            word_modifier=str.title,
-            replace_chars=(" ", ""))
+            word_modifier=str.title
+        ).replace(" ", "")
 
     def snake(self,
               delimiters: List[str] = DEFAULT_DELIMITERS,
@@ -130,9 +123,9 @@ class String(str):
         """[summary]
 
         Args:
-            delimiters (List[str], optional): [description]. Defaults to DEFAULT_DELIMITERS.
-            split_on_first_upper (bool, optional): [description]. Defaults to True.
-            title_case (bool, optional): [description]. Defaults to False.
+            delimiters (List[str], optional): Defaults to DEFAULT_DELIMITERS.
+            split_on_first_upper (bool, optional): Defaults to True.
+            title_case (bool, optional): Defaults to False.
 
         Returns:
             String: [description]
@@ -140,6 +133,119 @@ class String(str):
         return String.build(
             words=self.__words__(delimiters, split_on_first_upper),
             delimiter="_",
-            word_modifier=str.title if title_case else str.lower,
-            replace_chars=(" ", "_"),
-            strip_chars="-")
+            word_modifier=str.title if title_case else str.lower
+        ).replace(" ", "-").strip("-")
+
+# region Overrides
+
+    def capitalize(self) -> String:
+        return String(super().capitalize())
+
+    def casefold(self) -> String:
+        return String(super().casefold())
+
+    def center(self, __width: int, __fillchar: str = ...) -> String:  # type: ignore
+        return String(super().center(__width, __fillchar))
+
+    def expandtabs(self, tabsize: int = ...) -> String:  # type: ignore
+        return String(super().expandtabs(tabsize))
+
+    def format(self, *args: object, **kwargs: object) -> String:
+        return String(super().format(args, kwargs))
+
+    def format_map(self, map: _FormatMapMapping) -> String:
+        return String(super().format_map(map))
+
+    def join(self, __iterable: Iterable[str]) -> String:
+        return String(super().join(__iterable))
+
+    def ljust(self, __width: int, __fillchar: str = ...) -> String:  # type: ignore
+        return String(super().ljust(__width, __fillchar))
+
+    def lower(self) -> String:
+        return String(super().lower())
+
+    def lstrip(self, __chars: Optional[str] = ...) -> String:  # type: ignore
+        return String(super().lstrip(__chars))
+
+    def partition(self, __sep: str) -> Tuple[String, String, String]:
+        return tuple(String(s) for s in super().partition(__sep))  # type: ignore
+
+    def replace(self, __old: str, __new: str, __count: int = ...) -> String:  # type: ignore
+        return String(super().replace(__old, __new, __count))
+
+    if sys.version_info >= (3, 9):
+        def removeprefix(self, __prefix: str) -> String:
+            return String(super().removeprefix(__prefix))
+
+        def removesuffix(self, __suffix: str) -> String:
+            return String(super().removesuffix(__suffix))
+
+    def rjust(self, __width: int, __fillchar: str = ...) -> String:  # type: ignore
+        return String(super().rjust(__width, __fillchar))
+
+    def rpartition(self, __sep: str) -> Tuple[String, String, String]:
+        return String(super().rpartition(__sep))  # type: ignore
+
+    def rsplit(self, sep: Optional[str] = ..., maxsplit: int = ...) -> List[String]:  # type: ignore
+        return (String(s) for s in super().rsplit(sep, maxsplit))  # type: ignore
+
+    def rstrip(self, __chars: Optional[str] = ...) -> String:  # type: ignore
+        return String(super().rstrip(__chars))
+
+    def split(self, sep: Optional[str] = ..., maxsplit: int = ...) -> List[String]:  # type: ignore
+        return (String(s) for s in super().split(sep, maxsplit))  # type: ignore
+
+    def splitlines(self, keepends: bool = ...) -> List[str]:  # type: ignore
+        return (String(s) for s in super().splitlines(keepends))  # type: ignore
+
+    def strip(self, __chars: Optional[str] = ...) -> String:  # type: ignore
+        return String(super().strip(__chars))
+
+    def swapcase(self) -> String:
+        return String(super().swapcase())
+
+    def title(self) -> String:
+        return String(super().title())
+
+    def translate(self, __table: Union[Mapping[int, Union[int, str, None]], Sequence[Union[int, str, None]]]) -> String:
+        return String(super().translate(__table))
+
+    def upper(self) -> String:
+        return String(super().upper())
+
+    def zfill(self, __width: int) -> String:
+        return String(super().zfill(__width))
+
+    # region Magic Methods
+
+    def __add__(self, s: str) -> String:
+        return String(super().__add__(s))
+
+    def __getitem__(self, i: Union[int, slice]) -> String:
+        return String(super().__getitem__(i))
+
+    def __iter__(self) -> Iterator[String]:
+        return iter(String(s) for s in super().__iter__())
+
+    def __mod__(self, x: Any) -> String:
+        return String(super().__mod__(x))
+
+    def __mul__(self, n: int) -> String:
+        return String(super().__mul__(n))
+
+    def __repr__(self) -> String:
+        return String(super().__repr__())
+
+    def __rmul__(self, n: int) -> String:
+        return String(super().__rmul__(n))
+
+    def __str__(self) -> String:
+        return String(super().__str__())
+
+    def __getnewargs__(self) -> Tuple[String]:
+        return tuple(String(s) for s in super().__getnewargs__())   # type: ignore
+
+    # endregion
+
+# endregion

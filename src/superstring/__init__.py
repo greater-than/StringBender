@@ -1,7 +1,7 @@
 from __future__ import annotations
-import re
-from typing import List
 
+import re
+from typing import Callable, List, Tuple
 
 DEFAULT_DELIMITERS: List[str] = [" ", ".", "-", "_", ":", "\\"]
 
@@ -10,6 +10,7 @@ class String(str):
     """
     Extends str
     """
+
     def __words__(self, delimiters: List[str] = DEFAULT_DELIMITERS, split_on_first_upper: bool = True) -> List[String]:
         """[summary]
 
@@ -36,25 +37,32 @@ class String(str):
         return "|".join(String.__escape_delimiters(delimiters))
 
     @staticmethod
-    def build(words: List[str],
+    def build(words: List[String],
               delimiter: str = "",
-              word_modifier: callable = None,
+              word_modifier: Callable = None,
               first_word: str = "",
-              last_word: str = "") -> String:
+              last_word: str = "",
+              replace_chars: Tuple[str, str] = None,
+              strip_chars: str = "") -> String:
         """
         Constructs a string based on the specified words
 
         Args:
             words (List[str]): A list of str
             delimiter (str, optional): [description]. Defaults to "".
-            word_modifier (callable, optional): [description]. Defaults to None.
+            word_modifier (Callable, optional): [description]. Defaults to None.
             first_word (str, optional): [description]. Defaults to "".
             last_word (str, optional): [description]. Defaults to "".
 
         Returns:
             String: [description]
         """
-        return String(first_word + delimiter.join(word_modifier(w) if word_modifier else w for w in words) + last_word)
+        s = first_word + delimiter.join(word_modifier(w) if word_modifier else w for w in words) + last_word
+        if replace_chars:
+            s = s.replace(replace_chars[0], replace_chars[1])
+        if strip_chars:
+            s = s.strip(strip_chars)
+        return String(s)
 
     def camel(self,
               delimiters: List[str] = DEFAULT_DELIMITERS,
@@ -72,8 +80,9 @@ class String(str):
         return String.build(
             words=words[1:],
             word_modifier=str.title,
-            first_word=words[0]
-        ).replace(" ", "")
+            first_word=words[0],
+            replace_chars=(" ", "")
+        )
 
     def kebob(self,
               delimiters: List[str] = DEFAULT_DELIMITERS,
@@ -92,8 +101,10 @@ class String(str):
         return String.build(
             words=self.__words__(delimiters, split_on_first_upper),
             delimiter="-",
-            word_modifier=str.title if title_case else str.lower
-        ).replace(" ", "-").strip("-")
+            word_modifier=str.title if title_case else str.lower,
+            replace_chars=(" ", "-"),
+            strip_chars="-"
+        )
 
     def pascal(self,
                delimiters: List[str] = DEFAULT_DELIMITERS,
@@ -109,8 +120,8 @@ class String(str):
         """
         return String.build(
             words=self.__words__(delimiters, split_on_first_upper),
-            word_modifier=str.title
-        ).replace(" ", "")
+            word_modifier=str.title,
+            replace_chars=(" ", ""))
 
     def snake(self,
               delimiters: List[str] = DEFAULT_DELIMITERS,
@@ -129,5 +140,6 @@ class String(str):
         return String.build(
             words=self.__words__(delimiters, split_on_first_upper),
             delimiter="_",
-            word_modifier=str.title if title_case else str.lower
-        ).replace(" ", "_").strip("-")
+            word_modifier=str.title if title_case else str.lower,
+            replace_chars=(" ", "_"),
+            strip_chars="-")

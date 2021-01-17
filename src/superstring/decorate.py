@@ -1,30 +1,32 @@
 from functools import wraps
+from typing import Any, Callable
+
 from superstring import String
 
 
-def camel(func):
+def camel(func: Callable) -> Callable:
     @wraps(func)
-    def wrapper(*args, **kwargs):
+    def wrapper(*args: Any, **kwargs: Any) -> String:
         return String(func(*args, *kwargs)).pascal()
     return wrapper
 
 
-def kebob(func):
+def kebob(func: Callable) -> Callable:
     @wraps(func)
-    def wrapper(*args, **kwargs):
+    def wrapper(*args: Any, **kwargs: Any) -> String:
         return String(func(*args, *kwargs)).kebob()
     return wrapper
 
 
-def pascal(func):
+def pascal(func: Callable) -> Callable:
     @wraps(func)
-    def wrapper(*args, **kwargs):
+    def wrapper(*args: Any, **kwargs: Any) -> String:
         return String(func(*args, *kwargs)).pascal()
     return wrapper
 
 
-def snake(func):
+def snake(func: Callable) -> Callable:
     @wraps(func)
-    def wrapper(*args, **kwargs):
+    def wrapper(*args: Any, **kwargs: Any) -> String:
         return String(func(*args, *kwargs)).snake()
     return wrapper

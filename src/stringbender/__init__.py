@@ -138,16 +138,18 @@ class String(str):
 
 # region Overrides
 
+    # NOTE: Type type overrides below are necessary to pass mypy checks, because there was no apparent fix
+
     def capitalize(self) -> String:
         return String(super().capitalize())
 
     def casefold(self) -> String:
         return String(super().casefold())
 
-    def center(self, __width: int, __fillchar: str = ...) -> String:  # type: ignore
+    def center(self, __width: int, __fillchar: str = "") -> String:
         return String(super().center(__width, __fillchar))
 
-    def expandtabs(self, tabsize: int = ...) -> String:  # type: ignore
+    def expandtabs(self, tabsize: int = 8) -> String:
         return String(super().expandtabs(tabsize))
 
     def format(self, *args: object, **kwargs: object) -> String:
@@ -159,19 +161,20 @@ class String(str):
     def join(self, __iterable: Iterable[str]) -> String:
         return String(super().join(__iterable))
 
-    def ljust(self, __width: int, __fillchar: str = ...) -> String:  # type: ignore
+    def ljust(self, __width: int, __fillchar: str = "") -> String:
         return String(super().ljust(__width, __fillchar))
 
     def lower(self) -> String:
         return String(super().lower())
 
-    def lstrip(self, __chars: Optional[str] = ...) -> String:  # type: ignore
+    def lstrip(self, __chars: Optional[str] = "") -> String:
         return String(super().lstrip(__chars))
 
     def partition(self, __sep: str) -> Tuple[String, String, String]:
-        return tuple(String(s) for s in super().partition(__sep))  # type: ignore
+        part = super().partition(__sep)
+        return (String(part[0]), String(part[1]), String(part[2]))
 
-    def replace(self, __old: str, __new: str, __count: int = ...) -> String:  # type: ignore
+    def replace(self, __old: str, __new: str, __count: int = -1) -> String:
         return String(super().replace(__old, __new, __count))
 
     if sys.version_info >= (3, 9):
@@ -181,25 +184,26 @@ class String(str):
         def removesuffix(self, __suffix: str) -> String:
             return String(super().removesuffix(__suffix))
 
-    def rjust(self, __width: int, __fillchar: str = ...) -> String:  # type: ignore
+    def rjust(self, __width: int, __fillchar: str = "") -> String:
         return String(super().rjust(__width, __fillchar))
 
     def rpartition(self, __sep: str) -> Tuple[String, String, String]:
-        return String(super().rpartition(__sep))  # type: ignore
+        r_part = super().rpartition(__sep)
+        return (String(r_part[0]), String(r_part[1]), String(r_part[2]))
 
-    def rsplit(self, sep: Optional[str] = ..., maxsplit: int = ...) -> List[String]:  # type: ignore
-        return (String(s) for s in super().rsplit(sep, maxsplit))  # type: ignore
+    def rsplit(self, sep: Optional[str] = "", maxsplit: int = -1) -> List[String]:  # type: ignore
+        return [String(s) for s in super().rsplit(sep, maxsplit)]
 
-    def rstrip(self, __chars: Optional[str] = ...) -> String:  # type: ignore
+    def rstrip(self, __chars: Optional[str] = "") -> String:
         return String(super().rstrip(__chars))
 
     def split(self, sep: Optional[str] = ..., maxsplit: int = ...) -> List[String]:  # type: ignore
-        return (String(s) for s in super().split(sep, maxsplit))  # type: ignore
+        return [String(s) for s in super().split(sep, maxsplit)]
 
-    def splitlines(self, keepends: bool = ...) -> List[str]:  # type: ignore
-        return (String(s) for s in super().splitlines(keepends))  # type: ignore
+    def splitlines(self, keepends: bool = False) -> List[String]:  # type: ignore
+        return [String(s) for s in super().splitlines(keepends)]
 
-    def strip(self, __chars: Optional[str] = ...) -> String:  # type: ignore
+    def strip(self, __chars: Optional[str] = "") -> String:
         return String(super().strip(__chars))
 
     def swapcase(self) -> String:
@@ -244,7 +248,7 @@ class String(str):
         return String(super().__str__())
 
     def __getnewargs__(self) -> Tuple[String]:
-        return tuple(String(s) for s in super().__getnewargs__())   # type: ignore
+        return tuple(String(s) for s in super().__getnewargs__())  # type: ignore
 
     # endregion
 

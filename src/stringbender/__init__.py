@@ -2,9 +2,8 @@ from __future__ import annotations
 
 import re
 import sys
-from builtins import _FormatMapMapping
-from typing import (Any, Callable, Iterable, Iterator, List, Mapping, Optional,
-                    Sequence, Tuple, Union)
+from typing import (Any, Callable, Iterable, List, Mapping, Sequence, Tuple,
+                    Union)
 
 DEFAULT_DELIMITERS: List[str] = [" ", ".", "-", "_", ":", "\\"]
 
@@ -153,9 +152,9 @@ class String(str):
         return String(super().expandtabs(tabsize))
 
     def format(self, *args: object, **kwargs: object) -> String:
-        return String(super().format(args, kwargs))
+        return String(super().format(*args, **kwargs))
 
-    def format_map(self, map: _FormatMapMapping) -> String:
+    def format_map(self, map: dict) -> String:  # type: ignore
         return String(super().format_map(map))
 
     def join(self, __iterable: Iterable[str]) -> String:
@@ -167,15 +166,12 @@ class String(str):
     def lower(self) -> String:
         return String(super().lower())
 
-    def lstrip(self, __chars: Optional[str] = "") -> String:
+    def lstrip(self, __chars: Union[str, None] = None) -> String:
         return String(super().lstrip(__chars))
 
     def partition(self, __sep: str) -> Tuple[String, String, String]:
         part = super().partition(__sep)
         return (String(part[0]), String(part[1]), String(part[2]))
-
-    def replace(self, __old: str, __new: str, __count: int = -1) -> String:
-        return String(super().replace(__old, __new, __count))
 
     if sys.version_info >= (3, 9):
         def removeprefix(self, __prefix: str) -> String:
@@ -184,6 +180,9 @@ class String(str):
         def removesuffix(self, __suffix: str) -> String:
             return String(super().removesuffix(__suffix))
 
+    def replace(self, __old: str, __new: str, __count: int = -1) -> String:
+        return String(super().replace(__old, __new, __count))
+
     def rjust(self, __width: int, __fillchar: str = "") -> String:
         return String(super().rjust(__width, __fillchar))
 
@@ -191,19 +190,19 @@ class String(str):
         r_part = super().rpartition(__sep)
         return (String(r_part[0]), String(r_part[1]), String(r_part[2]))
 
-    def rsplit(self, sep: Optional[str] = "", maxsplit: int = -1) -> List[String]:  # type: ignore
+    def rsplit(self, sep: Union[str, None] = None, maxsplit: int = -1) -> List[String]:  # type: ignore
         return [String(s) for s in super().rsplit(sep, maxsplit)]
 
-    def rstrip(self, __chars: Optional[str] = "") -> String:
+    def rstrip(self, __chars: Union[str, None] = None) -> String:
         return String(super().rstrip(__chars))
 
-    def split(self, sep: Optional[str] = ..., maxsplit: int = ...) -> List[String]:  # type: ignore
+    def split(self, sep: Union[str, None] = None, maxsplit: int = -1) -> List[String]:  # type: ignore
         return [String(s) for s in super().split(sep, maxsplit)]
 
     def splitlines(self, keepends: bool = False) -> List[String]:  # type: ignore
         return [String(s) for s in super().splitlines(keepends)]
 
-    def strip(self, __chars: Optional[str] = "") -> String:
+    def strip(self, __chars: Union[str, None] = None) -> String:
         return String(super().strip(__chars))
 
     def swapcase(self) -> String:
@@ -226,26 +225,17 @@ class String(str):
     def __add__(self, s: str) -> String:
         return String(super().__add__(s))
 
-    def __getitem__(self, i: Union[int, slice]) -> String:
-        return String(super().__getitem__(i))
-
-    def __iter__(self) -> Iterator[String]:
-        return iter(String(s) for s in super().__iter__())
-
     def __mod__(self, x: Any) -> String:
         return String(super().__mod__(x))
 
     def __mul__(self, n: int) -> String:
         return String(super().__mul__(n))
 
-    def __repr__(self) -> String:
-        return String(super().__repr__())
-
     def __rmul__(self, n: int) -> String:
         return String(super().__rmul__(n))
 
     def __str__(self) -> String:
-        return String(super().__str__())
+        return String(super(String, self).__str__())
 
     def __getnewargs__(self) -> Tuple[String]:
         return tuple(String(s) for s in super().__getnewargs__())  # type: ignore

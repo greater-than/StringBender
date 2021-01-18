@@ -16,8 +16,8 @@ class TestStringOverrides:
 
     @pytest.mark.happy
     def test_center(self):
-        s = String("aBcdEf")
-        assert s.center(20, "*") == "*******aBcdEf*******"
+        s = String("I'll be back")
+        assert s.center(20, "*") == "****I'll be back****"
 
     @pytest.mark.happy
     def test_expandtabs(self):

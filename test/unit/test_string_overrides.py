@@ -42,8 +42,7 @@ class TestStringOverrides:
     @pytest.mark.happy
     def test_ljust(self):
         s = String("There's no crying in baseball!")
-        s_ljust = s.ljust(50, "*")
-        assert s_ljust == f"{s}********************"
+        assert s.ljust(50, "*") == f"{s}********************"
 
     @pytest.mark.happy
     def test_lower(self):
@@ -91,8 +90,7 @@ class TestStringOverrides:
     @pytest.mark.happy
     def test_rjust(self):
         s = String("Here's Johnny!")
-        s_ljust = s.rjust(30, "*")
-        assert s_ljust == f"****************{s}"
+        assert s.rjust(30, "*") == f"****************{s}"
 
     @pytest.mark.happy
     def test_rpartition(self):
@@ -148,9 +146,8 @@ class TestStringOverrides:
 
     @pytest.mark.happy
     def test_translate(self):
-        mydict = {71: 68, 100: 103}
         s = String("God is my copilot")
-        assert s.translate(mydict) == "Dog is my copilot"
+        assert s.translate({71: 68, 100: 103}) == "Dog is my copilot"
 
     @pytest.mark.happy
     def test_upper(self):
@@ -166,36 +163,22 @@ class TestStringOverrides:
 
     @pytest.mark.happy
     def test__add__(self):
-        ...
-
-    @pytest.mark.happy
-    def test__getitem__(self):
-        ...
-
-    @pytest.mark.happy
-    def test__iter__(self):
-        ...
-
-    @pytest.mark.happy
-    def test__mod__(self):
-        ...
+        s = String("One plus one")
+        assert s.__add__(" does not always equal two.") == "One plus one does not always equal two."
 
     @pytest.mark.happy
     def test__mul__(self):
-        ...
-
-    @pytest.mark.happy
-    def test__repr__(self):
-        ...
+        s = String("*")
+        s_1 = s * 10
+        assert s_1 == "**********"
 
     @pytest.mark.happy
     def test__rmul__(self):
-        ...
+        s = String("*")
+        s_1 = 10 * s
+        assert s_1 == "**********"
 
     @pytest.mark.happy
     def test__str__(self):
-        ...
-
-    @pytest.mark.happy
-    def test__getnewargs__(self):
-        ...
+        s = String("Is this an instance of stringbender.String")
+        assert isinstance(str(s), String)

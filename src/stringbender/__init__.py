@@ -2,8 +2,7 @@ from __future__ import annotations
 
 import re
 import sys
-from typing import (Any, Callable, Iterable, List, Mapping, Sequence, Tuple,
-                    Union)
+from typing import Callable, Iterable, List, Mapping, Sequence, Tuple, Union
 
 DEFAULT_DELIMITERS: List[str] = [" ", ".", "-", "_", ":", "\\"]
 
@@ -225,9 +224,6 @@ class String(str):
     def __add__(self, s: str) -> String:
         return String(super().__add__(s))
 
-    def __mod__(self, x: Any) -> String:
-        return String(super().__mod__(x))
-
     def __mul__(self, n: int) -> String:
         return String(super().__mul__(n))
 
@@ -236,9 +232,6 @@ class String(str):
 
     def __str__(self) -> String:
         return String(super(String, self).__str__())
-
-    def __getnewargs__(self) -> Tuple[String]:
-        return tuple(String(s) for s in super().__getnewargs__())  # type: ignore
 
     # endregion
 

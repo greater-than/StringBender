@@ -302,7 +302,7 @@ function Publish_Package {
         [string] $isPyPi = $false
     )
     $server = "testpypi"
-    if ($isPyPi) {
+    if ($isPyPi -eq $true) {
         $server = "pypi"
     }
     try {

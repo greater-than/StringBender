@@ -7,6 +7,32 @@ from typing import Callable, Iterable, List, Mapping, Sequence, Tuple, Union
 DEFAULT_DELIMITERS: List[str] = [" ", ".", "-", "_", ":", "\\"]
 
 
+def camel(s: str,
+          delimiters: List[str] = DEFAULT_DELIMITERS,
+          split_on_first_upper: bool = False) -> String:
+    return String(s).camel(delimiters, split_on_first_upper)
+
+
+def kebob(s: str,
+          delimiters: List[str] = DEFAULT_DELIMITERS,
+          split_on_first_upper: bool = False,
+          title_case: bool = False) -> String:
+    return String(s).kebob(delimiters, split_on_first_upper, title_case)
+
+
+def pascal(s: str,
+           delimiters: List[str] = DEFAULT_DELIMITERS,
+           split_on_first_upper: bool = False) -> String:
+    return String(s).pascal(delimiters, split_on_first_upper)
+
+
+def snake(s: str,
+          delimiters: List[str] = DEFAULT_DELIMITERS,
+          split_on_first_upper: bool = False,
+          title_case: bool = False) -> String:
+    return String(s).snake(delimiters, split_on_first_upper, title_case)
+
+
 class String(str):
     """
     Extends str
@@ -27,7 +53,9 @@ class String(str):
             s = re.sub("(.)([A-Z][a-z]+)", r"\1_\2", self)
             self = String(re.sub("([a-z0-9])([A-Z])", r"\1_\2", s))
 
-        return [String(w) for w in re.split(String.__regex_delimiters(delimiters), self)]
+        w = [String(w) for w in re.split(String.__regex_delimiters(delimiters), self) if w]
+        return w
+        return list(filter(None, w))
 
     @staticmethod
     def __escape_delimiters(delimiters: List[str] = DEFAULT_DELIMITERS) -> List[str]:
@@ -74,7 +102,7 @@ class String(str):
         return String.build(
             words=words[1:],
             word_modifier=str.title,
-            first_word=words[0]
+            first_word=words[0].lower()
         ).replace(" ", "")
 
     def kebob(self,
@@ -132,7 +160,7 @@ class String(str):
             words=self.__words__(delimiters, split_on_first_upper),
             delimiter="_",
             word_modifier=str.title if title_case else str.lower
-        ).replace(" ", "-").strip("-")
+        ).replace(" ", "_").strip("_")
 
 # region Overrides
 

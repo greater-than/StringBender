@@ -1,5 +1,5 @@
 # StringBender
-Sub-class of Python `str` that adds case conversion functions. They are especiially useful for tranforming data model field names,  ex: REST (camelCase) to Python (snake_case).
+Sub-class of Python `str` that adds case conversion functions. They are especially useful for tranforming data model field names,  ex: REST (camelCase) to Python (snake_case).
 
 ### Table of Contents
 
@@ -63,7 +63,7 @@ print(s.replace("*", " ").camel()    # voteForPedro (Much better!)
 
 # ================================================================================
 # Using a list of delimiters
-s = snake("Careful man, there’s a beverage here!", delimiters=[",", "’", "!"])
+s = snake("Careful man, there's a beverage here!", delimiters=[",", "'", "!"])
 print(snake(s)                       # careful_man_there_s_a_beverage_here
 
 ```

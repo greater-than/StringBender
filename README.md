@@ -59,12 +59,12 @@ s = String("vote*for*pedro")
 print(s.camel())                     # vote*For*Pedro (hmm... this isn't right)
 
 # Pass in a custom delimiter:
-print(s.replace("*", " ").camel()    # voteForPedro (Much better!)
+print(s.replace("*", " ").camel())   # voteForPedro (Much better!)
 
 # ================================================================================
 # Using a list of delimiters
 s = snake("Careful man, there's a beverage here!", delimiters=[",", "'", "!"])
-print(snake(s)                       # careful_man_there_s_a_beverage_here
+print(snake(s))                      # careful_man_there_s_a_beverage_here
 
 ```
 

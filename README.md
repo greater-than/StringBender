@@ -34,34 +34,35 @@ The `stringbender.String` class derives from `str`. Every base method in str has
 from stringbender import camel, kebob, pascal, snake, String
 
 
-# ==========
-# Simple Examples
+# ================================================================================
+# EXAMPLES                           # OUTPUT
+
 s = "Hasta la vista baby"
-                                     # OUTPUT:
 print(camel(s))                      # hastaLaVistaBaby
 print(kebob(s)                       # hasta-la-vista-baby
 print(pascal(s))                     # HastaLaVistaBaby
 print(snake(s))                      # hasta_la_vista_baby
 
-# ==========
+# ================================================================================
 # Chaining functions
-print(pascal(s).swapcase())          # hASTAlAvISTAbABY (sure, this is a little weird)
-print(pascal(s).swapcase().snake())  # h_ast_alv_ist_ab_aby (but this is ridiculous)
 
-# ==========
+print(pascal(s).swapcase())          # hASTAlAvISTAbABY
+print(pascal(s).swapcase().snake())  # h_ast_alv_ist_ab_aby
+
+# ================================================================================
 # Using a StringBender function with a built-in function
 
 # Create an instance of stringbender.String:
 s = String("vote*for*pedro")
 
 # Check the default output:
-print(s.camel())                     # vote*For*Pedro (hmm... this doesn't look right)
+print(s.camel())                     # vote*For*Pedro (hmm... this isn't right)
 
-# Pass in a custom delimiter
+# Pass in a custom delimiter:
 print(s.replace("*", " ").camel()    # voteForPedro (Much better!)
 
-# ==========
-# Using the delimiters argument
+# ================================================================================
+# Using a list of delimiters
 s = snake("Careful man, there’s a beverage here!", delimiters=[",", "’", "!"])
 print(snake(s)                       # careful_man_there_s_a_beverage_here
 

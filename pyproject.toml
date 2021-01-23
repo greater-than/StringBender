@@ -20,6 +20,9 @@ markers = [
     "sad"
 ]
 
+[tool.coverage.paths]
+source = ["src"]
+
 [tool.coverage.report]
-fail_under = 100
+fail_under = 93
 show_missing = true

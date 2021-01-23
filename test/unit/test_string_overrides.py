@@ -177,8 +177,3 @@ class TestStringOverrides:
         s = String("*")
         s_1 = 10 * s
         assert s_1 == "**********"
-
-    @pytest.mark.happy
-    def test__str__(self):
-        s = String("Is this an instance of stringbender.String")
-        assert isinstance(str(s), String)

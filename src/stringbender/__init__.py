@@ -258,9 +258,6 @@ class String(str):
     def __rmul__(self, n: int) -> String:
         return String(super().__rmul__(n))
 
-    def __str__(self) -> String:
-        return String(super(String, self).__str__())
-
     # endregion
 
 # endregion

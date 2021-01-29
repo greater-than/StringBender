@@ -38,7 +38,7 @@ def get_requirements() -> list:
 
 setup_args = {
     "name": "stringbender",
-    "version": "0.1.1",
+    "version": "0.2.0",
     "description": "A sub-class of str that provides case conversion functions",
     "long_description": get_long_description(),
     "long_description_content_type": "text/markdown",

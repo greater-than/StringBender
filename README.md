@@ -4,7 +4,7 @@ Sub-class of Python `str` that adds case conversion functions. They are especial
 ### Table of Contents
 
 * [Installation](#installation)
-* [Convenvience Methods](#convenience-methods)
+* [Functions](#functions)
 * [The String Class](#the-string-class)
 <br><br>
 
@@ -15,19 +15,15 @@ From the command line:
 pip install stringbender
 ```
 
-## Convenience Methods
+## Functions
 
-StringBender provides helper methods for converting the case of a specified string:
+StringBender provides the following static functions for converting the case of a specified string:
 * [`stringbender.camel`](#camel)
 * [`stringbender.kebob`](#kebob)
 * [`stringbender.pascal`](#pascal)
 * [`stringbender.snake`](#snake)
 
-The return type of each method is [`stringbender.String`](#stringbender-string).
-
-These helper methods call a corresponding method in the `stringbender.String` class.
-
-The `stringbender.String` class derives from `str`. Every base method in str has been overridden to return an instance of `stringbender.String` resulting in a fluent object.
+These helper methods call a corresponding method in the `stringbender.String` class and converts the output to `str`.
 
 ### Usage:
 ```python
@@ -42,12 +38,6 @@ print(camel(s))                      # hastaLaVistaBaby
 print(kebob(s)                       # hasta-la-vista-baby
 print(pascal(s))                     # HastaLaVistaBaby
 print(snake(s))                      # hasta_la_vista_baby
-
-# ================================================================================
-# Chaining functions
-
-print(pascal(s).swapcase())          # hASTAlAvISTAbABY
-print(pascal(s).swapcase().snake())  # h_ast_alv_ist_ab_aby
 
 # ================================================================================
 # Using a StringBender function with a built-in function
@@ -87,6 +77,9 @@ Combines all words, and capitalizes the first letter of each word.
 
 #### __`snake()`__ (String)<br>
 Creates an underscore delimited lower-case string.
+
+#### __`as_str()`__ (str)<br>
+Returns the value as a `str`. This is the same as `str(String(...))`
 <br><br>
 
 

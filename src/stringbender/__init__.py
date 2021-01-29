@@ -56,12 +56,6 @@ class String(str):
         w = [String(w) for w in re.split(String.__regex_delimiters(delimiters), self) if w]
         return w
 
-    def as_str(self) -> str:
-        """
-        Returns a 'str' object. This is useful if using static type-checkers that complain about the 'String' type.
-        """
-        return str(self)
-
     @staticmethod
     def __escape_delimiters(delimiters: List[str] = DEFAULT_DELIMITERS) -> List[str]:
         return [delim if delim not in "[](){}*+?|^$.\\" else "\\" + delim for delim in delimiters]
@@ -166,6 +160,12 @@ class String(str):
             delimiter="_",
             word_modifier=str.title if title_case else str.lower
         ).replace(" ", "_").strip("_")
+
+    def as_str(self) -> str:
+        """
+        Returns a 'str' object. This is useful if using static type-checkers that complain about the 'String' type.
+        """
+        return str(self)
 
 # region Overrides
 

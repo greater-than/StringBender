@@ -156,7 +156,7 @@ class TestStringOverrides:
 
     @pytest.mark.happy
     def test_zfill(self):
-        s = "3.1417"
+        s = String("3.1417")
         assert s.zfill(10) == "00003.1417"
 
     # Magic Methods

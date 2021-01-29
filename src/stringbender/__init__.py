@@ -9,28 +9,28 @@ DEFAULT_DELIMITERS: List[str] = [" ", ".", "-", "_", ":", "\\"]
 
 def camel(s: str,
           delimiters: List[str] = DEFAULT_DELIMITERS,
-          split_on_first_upper: bool = False) -> String:
-    return String(s).camel(delimiters, split_on_first_upper)
+          split_on_first_upper: bool = False) -> str:
+    return String(s).camel(delimiters, split_on_first_upper).as_str()
 
 
 def kebob(s: str,
           delimiters: List[str] = DEFAULT_DELIMITERS,
           split_on_first_upper: bool = False,
-          title_case: bool = False) -> String:
-    return String(s).kebob(delimiters, split_on_first_upper, title_case)
+          title_case: bool = False) -> str:
+    return String(s).kebob(delimiters, split_on_first_upper, title_case).as_str()
 
 
 def pascal(s: str,
            delimiters: List[str] = DEFAULT_DELIMITERS,
-           split_on_first_upper: bool = False) -> String:
-    return String(s).pascal(delimiters, split_on_first_upper)
+           split_on_first_upper: bool = False) -> str:
+    return String(s).pascal(delimiters, split_on_first_upper).as_str()
 
 
 def snake(s: str,
           delimiters: List[str] = DEFAULT_DELIMITERS,
           split_on_first_upper: bool = False,
-          title_case: bool = False) -> String:
-    return String(s).snake(delimiters, split_on_first_upper, title_case)
+          title_case: bool = False) -> str:
+    return String(s).snake(delimiters, split_on_first_upper, title_case).as_str()
 
 
 class String(str):
@@ -55,7 +55,6 @@ class String(str):
 
         w = [String(w) for w in re.split(String.__regex_delimiters(delimiters), self) if w]
         return w
-        return list(filter(None, w))
 
     @staticmethod
     def __escape_delimiters(delimiters: List[str] = DEFAULT_DELIMITERS) -> List[str]:
@@ -161,6 +160,12 @@ class String(str):
             delimiter="_",
             word_modifier=str.title if title_case else str.lower
         ).replace(" ", "_").strip("_")
+
+    def as_str(self) -> str:
+        """
+        Returns a 'str' object. This is useful if using static type-checkers that complain about the 'String' type.
+        """
+        return str(self)
 
 # region Overrides
 

@@ -46,3 +46,12 @@ class TestString:
         delims = DEFAULT_DELIMITERS + [",", "’", "!"]
         s = String("Careful man, there’s a beverage here!!")
         assert s.snake(delimiters=delims) == "careful_man_there_s_a_beverage_here"
+
+    @pytest.mark.happy
+    def test_as_str(self):
+        from stringbender import String
+        s = String("abc_def")
+        s_str = s.as_str()
+
+        assert s_str == "abc_def"
+        assert type(s_str) is not String

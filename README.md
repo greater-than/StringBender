@@ -40,7 +40,7 @@ print(pascal(s))                     # HastaLaVistaBaby
 print(snake(s))                      # hasta_la_vista_baby
 
 # ================================================================================
-# Using a StringBender function with a built-in function
+# Using a StringBender method with a built-in function
 
 # Create an instance of stringbender.String:
 s = String("vote*for*pedro")

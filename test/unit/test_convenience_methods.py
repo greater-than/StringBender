@@ -20,6 +20,11 @@ class TestConvenienceMethods:
         assert pascal("ABC DEF GHI") == "AbcDefGhi"
 
     @pytest.mark.happy
+    def test_screaming_snake(self):
+        from stringbender import screaming_snake
+        assert screaming_snake("aBC Def GHI") == "ABC_DEF_GHI"
+
+    @pytest.mark.happy
     def test_snake(self):
         from stringbender import snake
         assert snake("aBC Def GHI") == "abc_def_ghi"

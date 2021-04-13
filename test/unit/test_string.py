@@ -48,6 +48,12 @@ class TestString:
         assert s.snake(delimiters=delims) == "careful_man_there_s_a_beverage_here"
 
     @pytest.mark.happy
+    def test_toggle(self):
+        from stringbender import String
+        s = String("abcdefghijklmnopqrstuvwxyz")
+        assert s.toggle()
+
+    @pytest.mark.happy
     def test_as_str(self):
         from stringbender import String
         s = String("abc_def")

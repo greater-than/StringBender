@@ -31,7 +31,9 @@ class TestStringOverrides:
 
     @pytest.mark.happy
     def test_format_map(self):
-        ...
+        map = {"stooge1": "Larry", "stooge2": "Moe", "stooge3": "Curly"}
+        s = String("{stooge1} {stooge2} {stooge3}")
+        assert "Larry Moe Curly" == s.format_map(map)
 
     @pytest.mark.happy
     def test_join(self):

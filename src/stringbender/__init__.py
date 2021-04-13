@@ -2,9 +2,16 @@ from __future__ import annotations
 
 import re
 import sys
-from typing import Callable, Iterable, List, Mapping, Sequence, Tuple, Union
+from typing import (Callable, Iterable, List, Mapping, Optional, Sequence,
+                    Tuple, Union)
 
 DEFAULT_DELIMITERS: List[str] = [" ", ".", "-", "_", ":", "\\"]
+
+
+class Case:
+    lower: Callable = str.lower
+    upper: Callable = str.upper
+    title: Callable = str.title
 
 
 def camel(s: str,
@@ -16,8 +23,8 @@ def camel(s: str,
 def kebob(s: str,
           delimiters: List[str] = DEFAULT_DELIMITERS,
           split_on_first_upper: bool = False,
-          title_case: bool = False) -> str:
-    return String(s).kebob(delimiters, split_on_first_upper, title_case).as_str()
+          case: Optional[Callable] = None) -> str:
+    return String(s).kebob(delimiters, split_on_first_upper, case).as_str()
 
 
 def pascal(s: str,
@@ -29,8 +36,18 @@ def pascal(s: str,
 def snake(s: str,
           delimiters: List[str] = DEFAULT_DELIMITERS,
           split_on_first_upper: bool = False,
-          title_case: bool = False) -> str:
-    return String(s).snake(delimiters, split_on_first_upper, title_case).as_str()
+          case: Optional[Callable] = None) -> str:
+    return String(s).snake(delimiters, split_on_first_upper, case).as_str()
+
+
+def screaming_snake(s: str,
+                    delimiters: List[str] = DEFAULT_DELIMITERS,
+                    split_on_first_upper: bool = False) -> str:
+    return String(s).screaming_snake(delimiters, split_on_first_upper).as_str()
+
+
+def toggle(s: str) -> str:
+    return String(s).toggle().as_str()
 
 
 class String(str):
@@ -39,14 +56,12 @@ class String(str):
     """
 
     def __words__(self, delimiters: List[str] = DEFAULT_DELIMITERS, split_on_first_upper: bool = True) -> List[String]:
-        """[summary]
+        """
+        Splits the value of self into words
 
         Args:
             delimiters (List[str], optional): Defaults to DEFAULT_DELIMITERS.
             split_on_first_upper (bool, optional): Defaults to True.
-
-        Returns:
-            :
         """
 
         if split_on_first_upper:
@@ -67,7 +82,7 @@ class String(str):
     @staticmethod
     def build(words: List[String],
               delimiter: str = "",
-              word_modifier: Callable = None,
+              word_modifier: Optional[Callable] = None,
               first_word: str = "",
               last_word: str = "") -> String:
         """
@@ -79,23 +94,18 @@ class String(str):
             word_modifier (Callable, optional): Defaults to None.
             first_word (str, optional): Defaults to "".
             last_word (str, optional): Defaults to "".
-
-        Returns:
-            String: [description]
         """
         return String(first_word + delimiter.join(word_modifier(w) if word_modifier else w for w in words) + last_word)
 
     def camel(self,
               delimiters: List[str] = DEFAULT_DELIMITERS,
               split_on_first_upper: bool = False) -> String:
-        """[summary]
+        """
+        Converts a string to camelCase
 
         Args:
             delimiters (List[str], optional): Defaults to DEFAULT_DELIMITERS.
             split_on_first_upper (bool, optional): Defaults to False.
-
-        Returns:
-            String: [description]
         """
         words = self.__words__(delimiters, split_on_first_upper)
         return String.build(
@@ -107,59 +117,75 @@ class String(str):
     def kebob(self,
               delimiters: List[str] = DEFAULT_DELIMITERS,
               split_on_first_upper: bool = False,
-              title_case: bool = False) -> String:
-        """[summary]
-
+              case: Optional[Callable] = None) -> String:
+        """
+        Converts a string to kebob-case
         Args:
             delimiters (List[str], optional): Defaults to DEFAULT_DELIMITERS.
             split_on_first_upper (bool, optional): Defaults to False.
             title_case (bool, optional): Defaults to False.
-
-        Returns:
-            String: [description]
         """
         return String.build(
             words=self.__words__(delimiters, split_on_first_upper),
             delimiter="-",
-            word_modifier=str.title if title_case else str.lower
+            word_modifier=case if case else Case.lower
         ).replace(" ", "-").strip("-")
 
     def pascal(self,
                delimiters: List[str] = DEFAULT_DELIMITERS,
                split_on_first_upper: bool = True) -> String:
-        """[summary]
+        """
+        Converts a string to PascalCase
 
         Args:
             delimiters (List[str], optional): Defaults to DEFAULT_DELIMITERS.
             split_on_first_upper (bool, optional): Defaults to True.
-
-        Returns:
-            String: [description]
         """
         return String.build(
             words=self.__words__(delimiters, split_on_first_upper),
             word_modifier=str.title
         ).replace(" ", "")
 
+    def screaming_snake(self,
+                        delimiters: List[str] = DEFAULT_DELIMITERS,
+                        split_on_first_upper: bool = True) -> String:
+        """
+        Converts a string to SCREAMING_SNAKE_CASE
+
+        Args:
+            delimiters (List[str], optional): Defaults to DEFAULT_DELIMITERS.
+            split_on_first_upper (bool, optional): Defaults to True.
+        """
+        return self.snake(
+            delimiters=delimiters,
+            split_on_first_upper=split_on_first_upper,
+            case=Case.upper
+        ).replace(" ", "_").strip("_")
+
     def snake(self,
               delimiters: List[str] = DEFAULT_DELIMITERS,
               split_on_first_upper: bool = True,
-              title_case: bool = False) -> String:
-        """[summary]
+              case: Optional[Callable] = None) -> String:
+        """
+        Converts a string to snake_case
 
         Args:
             delimiters (List[str], optional): Defaults to DEFAULT_DELIMITERS.
             split_on_first_upper (bool, optional): Defaults to True.
             title_case (bool, optional): Defaults to False.
-
-        Returns:
-            String: [description]
         """
         return String.build(
             words=self.__words__(delimiters, split_on_first_upper),
             delimiter="_",
-            word_modifier=str.title if title_case else str.lower
+            word_modifier=case if case else Case.lower
         ).replace(" ", "_").strip("_")
+
+    def toggle(self) -> String:
+        """
+        Random upper/lower case letters
+        """
+        from random import choice
+        return String("".join(choice((str.upper, str.lower))(letter) for letter in self))
 
     def as_str(self) -> str:
         """

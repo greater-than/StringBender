@@ -2,6 +2,7 @@ VENV_NAME?=.venv
 PYTHON=${VENV_NAME}/bin/python
 PYTHON_VERSION=3.12.5
 SRC_DIR=src
+RELEASE=0.4.0
 
 # By default, set up the virtual environment and install dependencies
 all: venv setup
@@ -51,8 +52,8 @@ publish: build
 	# twine upload --repository $1 dist/*
 
 release:
-	git commit --allow-empty -m "Release" $(RELEASE)
-	git tag -a $(RELEASE) -m "Version" $(RELEASE)
+	git commit --allow-empty -m "Release v" $(RELEASE)
+	git tag -a v$(RELEASE) -m "Version" $(RELEASE)
 	git push upstream --tags
 
 clean:

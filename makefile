@@ -53,8 +53,8 @@ publish: build
 
 release:
 	git commit --allow-empty -m "Release v" $(RELEASE)
-	git tag -a v$(RELEASE) -m "Version" $(RELEASE)
-	git push upstream --tags
+	git tag -a v$(RELEASE) -m "Version $(RELEASE)"
+	git push origin --tags
 
 clean:
 	# Clean up generated folders and files

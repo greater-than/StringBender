@@ -1,5 +1,9 @@
 # StringBender
+[![LATEST](https://img.shields.io/github/v/release/greater-than/stringbender?style=for-the-badge&logo=PyPi&logoColor=white)](https://pypi.org/project/stringbender/)![PyPI - Python Version](https://img.shields.io/pypi/pyversions/stringbender?style=for-the-badge&logo=Python&logoColor=white)[![PyPI - License](https://img.shields.io/pypi/l/stringbender?style=for-the-badge)](LICENSE)
+
 Sub-class of Python `str` that adds case conversion functions. They are especially useful for transforming data model field names,  ex: REST (camelCase) to Python (snake_case).
+
+<a href="https://www.buymeacoffee.com/gr8rthan" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-violet.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 
 ### Table of Contents
 

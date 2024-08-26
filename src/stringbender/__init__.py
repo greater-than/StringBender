@@ -2,10 +2,14 @@ from __future__ import annotations
 
 import re
 import sys
-from typing import (Callable, Iterable, List, Mapping, Optional, Sequence,
-                    Tuple, Union)
+from typing import (Callable, Iterable, List, Optional, Protocol,
+                    SupportsIndex, Tuple, Union)
 
 DEFAULT_DELIMITERS: List[str] = [" ", ".", "-", "_", ":", "\\"]
+
+
+class _TranslateTable(Protocol):
+    def __getitem__(self, key: int, /) -> str | int | None: ...
 
 
 class Case:
@@ -203,10 +207,10 @@ class String(str):
     def casefold(self) -> String:
         return String(super().casefold())
 
-    def center(self, __width: int, __fillchar: str = "") -> String:
+    def center(self, __width: SupportsIndex, __fillchar: str = "") -> String:
         return String(super().center(__width, __fillchar))
 
-    def expandtabs(self, tabsize: int = 8) -> String:
+    def expandtabs(self, tabsize: SupportsIndex = 8) -> String:
         return String(super().expandtabs(tabsize))
 
     def format(self, *args: object, **kwargs: object) -> String:
@@ -218,7 +222,7 @@ class String(str):
     def join(self, __iterable: Iterable[str]) -> String:
         return String(super().join(__iterable))
 
-    def ljust(self, __width: int, __fillchar: str = "") -> String:
+    def ljust(self, __width: SupportsIndex, __fillchar: str = "") -> String:
         return String(super().ljust(__width, __fillchar))
 
     def lower(self) -> String:
@@ -238,10 +242,10 @@ class String(str):
         def removesuffix(self, __suffix: str) -> String:
             return String(super().removesuffix(__suffix))
 
-    def replace(self, __old: str, __new: str, __count: int = -1) -> String:
+    def replace(self, __old: str, __new: str, __count: SupportsIndex = -1) -> String:
         return String(super().replace(__old, __new, __count))
 
-    def rjust(self, __width: int, __fillchar: str = "") -> String:
+    def rjust(self, __width: SupportsIndex, __fillchar: str = "") -> String:
         return String(super().rjust(__width, __fillchar))
 
     def rpartition(self, __sep: str) -> Tuple[String, String, String]:
@@ -269,13 +273,13 @@ class String(str):
     def title(self) -> String:
         return String(super().title())
 
-    def translate(self, __table: Union[Mapping[int, Union[int, str, None]], Sequence[Union[int, str, None]]]) -> String:
+    def translate(self, __table: _TranslateTable) -> String:
         return String(super().translate(__table))
 
     def upper(self) -> String:
         return String(super().upper())
 
-    def zfill(self, __width: int) -> String:
+    def zfill(self, __width: SupportsIndex) -> String:
         return String(super().zfill(__width))
 
     # region Magic Methods
@@ -283,10 +287,10 @@ class String(str):
     def __add__(self, s: str) -> String:
         return String(super().__add__(s))
 
-    def __mul__(self, n: int) -> String:
+    def __mul__(self, n: SupportsIndex) -> String:
         return String(super().__mul__(n))
 
-    def __rmul__(self, n: int) -> String:
+    def __rmul__(self, n: SupportsIndex) -> String:
         return String(super().__rmul__(n))
 
     # endregion

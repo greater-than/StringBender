@@ -1,24 +1,39 @@
+[tool.poetry]
+name = "stringbender"
+version = "0.4.0"
+description = "A sub-class of the Python str class that adds case conversion functions."
+authors = ["GreaterThan, LLC <info@greaterthan.solutions>"]
+license = "FreeBSD"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+[tool.poetry.group.dev.dependencies]
+autopep8 = "^2.3.1"
+flake8 = "^7.1.1"
+flake8-quotes = "^3.4.0"
+isort = "^5.13.2"
+mypy = "^1.11.1"
+pre-commit = "^3.8.0"
+setuptools = "^72.2.0"
+wheel = "^0.44.0"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.3.2"
+pytest-cov = "^5.0.0"
+pytest-mock = "^3.14.0"
+pytest-nunit = "^1.0.7"
+coverage = "^7.6.1"
+
 [tool.autopep8]
 max_line_length = 120
 ignore = "E501,W6"
 
-
 [tool.pytest.ini_options]
-testpaths = [
-    "test"
-]
-addopts = [
-    "-v",
-    "-cov-report xml",
-    "-cov-report term",
-    "--strict-markers"
-]
-markers = [
-    "integration",
-    "unit",
-    "happy",
-    "sad"
-]
+testpaths = ["test"]
+addopts = ["-v", "-cov-report xml", "-cov-report term", "--strict-markers"]
+markers = ["integration", "unit", "happy", "sad"]
 
 [tool.coverage.paths]
 source = ["src"]

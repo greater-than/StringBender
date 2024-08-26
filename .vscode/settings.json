@@ -1,0 +1,65 @@
+{
+  "editor.detectIndentation": false,
+  "editor.insertSpaces": false,
+  "editor.formatOnSave": true,
+  "editor.semanticHighlighting.enabled": true,
+  "python.defaultInterpreterPath": ".venv/bin/python",
+  "python.analysis.extraPaths": [
+    "./src",
+    "./test",
+    "./examples/simple_pipelayer/src",
+    "./examples/pipelayer_microservice/src"
+  ],
+  "python.autoComplete.extraPaths": [
+    "./src",
+    "./test",
+    "./examples/simple_pipelayer/src",
+    "./examples/pipelayer_microservice/src"
+  ],
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features",
+    "editor.formatOnSave": true
+  },
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.autopep8",
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": true,
+  },
+  "[makefile]": {
+    "editor.insertSpaces": false,
+    "editor.defaultFormatter": "ms-vscode.makefile-tools",
+  },
+  "[markdown]": {
+    "editor.insertSpaces": false,
+    "editor.detectIndentation": false,
+    "editor.defaultFormatter": "ms-vscode.makefile-tools",
+  },
+  "flake8.args": [
+    "--max-line-length",
+    "120",
+    "--inline-quotes",
+    "double",
+    "--exclude",
+    ".venv"
+  ],
+  "python.testing.pytestArgs": [
+    "test"
+  ],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true,
+  "python.testing.autoTestDiscoverOnSaveEnabled": true,
+  "cSpell.words": [
+	"autopep",
+	"endregion",
+	"gitversion",
+	"greaterthan",
+	"isort",
+	"mypy",
+	"nosetests",
+	"pipelayer",
+	"pydantic",
+	"pytest",
+	"stringbender",
+	"venv"
+],
+}

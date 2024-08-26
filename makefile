@@ -52,7 +52,7 @@ publish: build
 	# twine upload --repository $1 dist/*
 
 release:
-	git commit --allow-empty -m "Release v" $(RELEASE)
+	git commit --allow-empty -m "Release v$(RELEASE)"
 	git tag -a v$(RELEASE) -m "Version $(RELEASE)"
 	git push origin --tags
 

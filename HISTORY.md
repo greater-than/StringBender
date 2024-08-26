@@ -1,5 +1,14 @@
 # StringBender: Version History
 
+## 0.4.0 - 9/2/2024
+
+HOUSEKEEPING:
+- Implements Poetry
+- Adds makefile
+- Removes PowerShell scripts
+- Adds code check GitHub workflow
+- Adds pypy publisher workflow
+
 ## 0.3.0 - 2/2/2021
 - Adds `toggle` case conversion function.
 

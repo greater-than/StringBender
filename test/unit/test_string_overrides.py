@@ -69,8 +69,8 @@ class TestStringOverrides:
         # TODO Install Python 3.9 and test
         import sys
         if sys.version_info >= (3, 9):
-            s = String("Scarface: Say 'hello' to mhy little friend!")
-            assert s.removeprefix("Scarface:") == "Say 'hello' to my little friend!"
+            s = String("Scarface: Say 'hello' to my little friend!")
+            assert s.removeprefix("Scarface: ") == "Say 'hello' to my little friend!"
         else:
             assert True
 
@@ -79,8 +79,8 @@ class TestStringOverrides:
         # TODO Install Python 3.9 and test
         import sys
         if sys.version_info >= (3, 9):
-            s = String("Say 'hello' to mhy little friend! --Scarface")
-            assert s.removeprefix(" --Scarface") == "Say 'hello' to my little friend!"
+            s = String("Say 'hello' to my little friend! --Scarface")
+            assert s.removesuffix(" --Scarface") == "Say 'hello' to my little friend!"
         else:
             assert True
 

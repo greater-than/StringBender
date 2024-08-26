@@ -1,5 +1,5 @@
 # StringBender
-Sub-class of Python `str` that adds case conversion functions. They are especially useful for tranforming data model field names,  ex: REST (camelCase) to Python (snake_case).
+Sub-class of Python `str` that adds case conversion functions. They are especially useful for transforming data model field names,  ex: REST (camelCase) to Python (snake_case).
 
 ### Table of Contents
 
@@ -15,6 +15,12 @@ From the command line:
 pip install stringbender
 ```
 
+or if you're using poetry:
+
+```sh
+poetry add stringbender
+```
+
 ## Functions
 
 StringBender provides the following static functions for converting the case of a specified string:
@@ -28,7 +34,6 @@ These helper methods call a corresponding method in the `stringbender.String` cl
 ### Usage:
 ```python
 from stringbender import camel, kebob, pascal, snake, String
-
 
 # ================================================================================
 # EXAMPLES                           # OUTPUT

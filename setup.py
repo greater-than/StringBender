@@ -54,7 +54,7 @@ setup_args = {
     "packages": find_packages("src"),
     "package_dir": {"": "src"},
     "include_package_data": True,
-    "python_requires": ">=3.7",
+    "python_requires": ">=3.9",
 }
 
 

@@ -1,34 +1,38 @@
 [tool.poetry]
 name = "stringbender"
-version = "0.4.0"
+version = "0.5.0"
 description = "A sub-class of the Python str class that adds case conversion functions."
 authors = ["GreaterThan, LLC <info@greaterthan.solutions>"]
 license = "FreeBSD"
 readme = "README.md"
+package-mode = true
 
 [tool.poetry.dependencies]
 python = "^3.9"
 
 [tool.poetry.group.dev.dependencies]
-autopep8 = "^2.3.1"
+black = "^24.10.0"
 flake8 = "^7.1.1"
 flake8-quotes = "^3.4.0"
 isort = "^5.13.2"
-mypy = "^1.11.1"
-pre-commit = "^3.8.0"
-setuptools = "^72.2.0"
-wheel = "^0.44.0"
+mypy = "^1.13.0"
+pre-commit = "^4.0.1"
+setuptools = "^75.5.0"
+wheel = "^0.45.0"
 
 [tool.poetry.group.test.dependencies]
+coverage = "^7.6.1"
 pytest = "^8.3.2"
 pytest-cov = "^5.0.0"
 pytest-mock = "^3.14.0"
 pytest-nunit = "^1.0.7"
-coverage = "^7.6.1"
 
-[tool.autopep8]
-max_line_length = 120
-ignore = "E501,W6"
+[tool.black]
+line-length = 120
+
+[tool.isort]
+line_length = 120
+profile = "black"
 
 [tool.pytest.ini_options]
 testpaths = ["test"]
@@ -41,3 +45,30 @@ source = ["src"]
 [tool.coverage.report]
 fail_under = 95
 show_missing = true
+
+[project]
+name = "StringBender"
+dynamic = ["version"]
+
+[tool.mypy]
+python_version = "3.13"
+ignore_missing_imports = true
+follow_imports = "normal"
+strict_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_unused_configs = true
+no_implicit_reexport = true
+check_untyped_defs = true
+modules = ["stringbender"]
+plugins = ["pydantic.mypy"]
+
+# For strict mypy
+disallow_incomplete_defs = true
+disallow_untyped_defs = true
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+warn_untyped_fields = true

@@ -47,14 +47,14 @@ setup_args = {
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3.8",
-        "Topic :: Software Development :: Libraries :: Python Modules"
+        "Topic :: Software Development :: Libraries :: Python Modules",
     ],
     "author": "greaterThan, LLC",
     "author_email": "info@greaterthan.solutions",
     "packages": find_packages("src"),
     "package_dir": {"": "src"},
     "include_package_data": True,
-    "python_requires": ">=3.7"
+    "python_requires": ">=3.9",
 }
 
 

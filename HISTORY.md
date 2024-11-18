@@ -1,5 +1,13 @@
 # StringBender: Version History
 
+## 0.5.0 - 9/2/2024
+
+HOUSEKEEPING:
+- Confirmed support of Python 3.9-3.13
+- Adds checks for compatibility across Ubuntu, MacOS, Windows
+- Updates makefile
+- Replaces autopep8 with black
+
 ## 0.4.0 - 9/2/2024
 
 HOUSEKEEPING:
@@ -7,7 +15,7 @@ HOUSEKEEPING:
 - Adds makefile
 - Removes PowerShell scripts
 - Adds code check GitHub workflow
-- Adds pypy publisher workflow
+- Adds PyPi publisher workflow
 
 ## 0.3.0 - 2/2/2021
 - Adds `toggle` case conversion function.

@@ -68,6 +68,7 @@ class TestStringOverrides:
     def test_removeprefix(self):
         # TODO Install Python 3.9 and test
         import sys
+
         if sys.version_info >= (3, 9):
             s = String("Scarface: Say 'hello' to my little friend!")
             assert s.removeprefix("Scarface: ") == "Say 'hello' to my little friend!"
@@ -78,6 +79,7 @@ class TestStringOverrides:
     def test_removesuffix(self):
         # TODO Install Python 3.9 and test
         import sys
+
         if sys.version_info >= (3, 9):
             s = String("Say 'hello' to my little friend! --Scarface")
             assert s.removesuffix(" --Scarface") == "Say 'hello' to my little friend!"
@@ -123,9 +125,13 @@ class TestStringOverrides:
 
     @pytest.mark.happy
     def test_splitlines(self):
-        s = String(("Cinderella story. Outta nowhere. A former greenskeeper, now,\n"
-                    "about to become the Masters champion. It looks like a mirac...\n"
-                    "It's in the hole! It's in the hole! It's in the hole!"))
+        s = String(
+            (
+                "Cinderella story. Outta nowhere. A former greenskeeper, now,\n"
+                "about to become the Masters champion. It looks like a mirac...\n"
+                "It's in the hole! It's in the hole! It's in the hole!"
+            )
+        )
         s_splitlines = s.splitlines()
         assert s_splitlines[0] == "Cinderella story. Outta nowhere. A former greenskeeper, now,"
         assert s_splitlines[1] == "about to become the Masters champion. It looks like a mirac..."

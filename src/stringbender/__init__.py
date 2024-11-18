@@ -2,8 +2,18 @@ from __future__ import annotations
 
 import re
 import sys
-from typing import (Callable, Iterable, List, Optional, Protocol,
-                    SupportsIndex, Tuple, Union)
+from typing import (
+    Callable,
+    Iterable,
+    List,
+    Optional,
+    Protocol,
+    SupportsIndex,
+    Tuple,
+    Union,
+)
+
+__version__ = "0.5.0"
 
 DEFAULT_DELIMITERS: List[str] = [" ", ".", "-", "_", ":", "\\"]
 
@@ -18,35 +28,53 @@ class Case:
     title: Callable = str.title
 
 
-def camel(s: str,
-          delimiters: List[str] = DEFAULT_DELIMITERS,
-          split_on_first_upper: bool = False) -> str:
+def camel(
+    s: str,
+    delimiters: List[str] = DEFAULT_DELIMITERS,
+    split_on_first_upper: bool = False,
+) -> str:
     return String(s).camel(delimiters, split_on_first_upper).as_str()
 
 
-def kebob(s: str,
-          delimiters: List[str] = DEFAULT_DELIMITERS,
-          split_on_first_upper: bool = False,
-          case: Optional[Callable] = None) -> str:
+def kebob(
+    s: str,
+    delimiters: List[str] = DEFAULT_DELIMITERS,
+    split_on_first_upper: bool = False,
+    case: Optional[Callable] = None,
+) -> str:
     return String(s).kebob(delimiters, split_on_first_upper, case).as_str()
 
 
-def pascal(s: str,
-           delimiters: List[str] = DEFAULT_DELIMITERS,
-           split_on_first_upper: bool = False) -> str:
+def pascal(
+    s: str,
+    delimiters: List[str] = DEFAULT_DELIMITERS,
+    split_on_first_upper: bool = False,
+) -> str:
     return String(s).pascal(delimiters, split_on_first_upper).as_str()
 
 
-def snake(s: str,
-          delimiters: List[str] = DEFAULT_DELIMITERS,
-          split_on_first_upper: bool = False,
-          case: Optional[Callable] = None) -> str:
-    return String(s).snake(delimiters, split_on_first_upper, case).as_str()
+def snake(
+    s: str,
+    delimiters: List[str] = DEFAULT_DELIMITERS,
+    split_on_first_upper: bool = False,
+    case: Optional[Callable] = None,
+) -> str:
+    return (
+        String(s)
+        .snake(
+            delimiters,
+            split_on_first_upper,
+            case,
+        )
+        .as_str()
+    )
 
 
-def screaming_snake(s: str,
-                    delimiters: List[str] = DEFAULT_DELIMITERS,
-                    split_on_first_upper: bool = False) -> str:
+def screaming_snake(
+    s: str,
+    delimiters: List[str] = DEFAULT_DELIMITERS,
+    split_on_first_upper: bool = False,
+) -> str:
     return String(s).screaming_snake(delimiters, split_on_first_upper).as_str()
 
 
@@ -59,7 +87,11 @@ class String(str):
     Extends str
     """
 
-    def __words__(self, delimiters: List[str] = DEFAULT_DELIMITERS, split_on_first_upper: bool = True) -> List[String]:
+    def __words__(
+        self,
+        delimiters: List[str] = DEFAULT_DELIMITERS,
+        split_on_first_upper: bool = True,
+    ) -> List[String]:
         """
         Splits the value of self into words
 
@@ -72,7 +104,14 @@ class String(str):
             s = re.sub("(.)([A-Z][a-z]+)", r"\1_\2", self)
             self = String(re.sub("([a-z0-9])([A-Z])", r"\1_\2", s))
 
-        w = [String(w) for w in re.split(String.__regex_delimiters(delimiters), self) if w]
+        w = [
+            String(w)
+            for w in re.split(
+                String.__regex_delimiters(delimiters),
+                self,
+            )
+            if w
+        ]
         return w
 
     @staticmethod
@@ -84,11 +123,13 @@ class String(str):
         return "|".join(String.__escape_delimiters(delimiters))
 
     @staticmethod
-    def build(words: List[String],
-              delimiter: str = "",
-              word_modifier: Optional[Callable] = None,
-              first_word: str = "",
-              last_word: str = "") -> String:
+    def build(
+        words: List[String],
+        delimiter: str = "",
+        word_modifier: Optional[Callable] = None,
+        first_word: str = "",
+        last_word: str = "",
+    ) -> String:
         """
         Constructs a string based on the specified words
 
@@ -101,9 +142,7 @@ class String(str):
         """
         return String(first_word + delimiter.join(word_modifier(w) if word_modifier else w for w in words) + last_word)
 
-    def camel(self,
-              delimiters: List[str] = DEFAULT_DELIMITERS,
-              split_on_first_upper: bool = False) -> String:
+    def camel(self, delimiters: List[str] = DEFAULT_DELIMITERS, split_on_first_upper: bool = False) -> String:
         """
         Converts a string to camelCase
 
@@ -115,13 +154,15 @@ class String(str):
         return String.build(
             words=words[1:],
             word_modifier=str.title,
-            first_word=words[0].lower()
+            first_word=words[0].lower(),
         ).replace(" ", "")
 
-    def kebob(self,
-              delimiters: List[str] = DEFAULT_DELIMITERS,
-              split_on_first_upper: bool = False,
-              case: Optional[Callable] = None) -> String:
+    def kebob(
+        self,
+        delimiters: List[str] = DEFAULT_DELIMITERS,
+        split_on_first_upper: bool = False,
+        case: Optional[Callable] = None,
+    ) -> String:
         """
         Converts a string to kebob-case
         Args:
@@ -129,15 +170,21 @@ class String(str):
             split_on_first_upper (bool, optional): Defaults to False.
             title_case (bool, optional): Defaults to False.
         """
-        return String.build(
-            words=self.__words__(delimiters, split_on_first_upper),
-            delimiter="-",
-            word_modifier=case if case else Case.lower
-        ).replace(" ", "-").strip("-")
+        return (
+            String.build(
+                words=self.__words__(delimiters, split_on_first_upper),
+                delimiter="-",
+                word_modifier=case if case else Case.lower,
+            )
+            .replace(" ", "-")
+            .strip("-")
+        )
 
-    def pascal(self,
-               delimiters: List[str] = DEFAULT_DELIMITERS,
-               split_on_first_upper: bool = True) -> String:
+    def pascal(
+        self,
+        delimiters: List[str] = DEFAULT_DELIMITERS,
+        split_on_first_upper: bool = True,
+    ) -> String:
         """
         Converts a string to PascalCase
 
@@ -146,13 +193,18 @@ class String(str):
             split_on_first_upper (bool, optional): Defaults to True.
         """
         return String.build(
-            words=self.__words__(delimiters, split_on_first_upper),
-            word_modifier=str.title
+            words=self.__words__(
+                delimiters,
+                split_on_first_upper,
+            ),
+            word_modifier=str.title,
         ).replace(" ", "")
 
-    def screaming_snake(self,
-                        delimiters: List[str] = DEFAULT_DELIMITERS,
-                        split_on_first_upper: bool = True) -> String:
+    def screaming_snake(
+        self,
+        delimiters: List[str] = DEFAULT_DELIMITERS,
+        split_on_first_upper: bool = True,
+    ) -> String:
         """
         Converts a string to SCREAMING_SNAKE_CASE
 
@@ -160,16 +212,18 @@ class String(str):
             delimiters (List[str], optional): Defaults to DEFAULT_DELIMITERS.
             split_on_first_upper (bool, optional): Defaults to True.
         """
-        return self.snake(
-            delimiters=delimiters,
-            split_on_first_upper=split_on_first_upper,
-            case=Case.upper
-        ).replace(" ", "_").strip("_")
+        return (
+            self.snake(delimiters=delimiters, split_on_first_upper=split_on_first_upper, case=Case.upper)
+            .replace(" ", "_")
+            .strip("_")
+        )
 
-    def snake(self,
-              delimiters: List[str] = DEFAULT_DELIMITERS,
-              split_on_first_upper: bool = True,
-              case: Optional[Callable] = None) -> String:
+    def snake(
+        self,
+        delimiters: List[str] = DEFAULT_DELIMITERS,
+        split_on_first_upper: bool = True,
+        case: Optional[Callable] = None,
+    ) -> String:
         """
         Converts a string to snake_case
 
@@ -178,17 +232,22 @@ class String(str):
             split_on_first_upper (bool, optional): Defaults to True.
             title_case (bool, optional): Defaults to False.
         """
-        return String.build(
-            words=self.__words__(delimiters, split_on_first_upper),
-            delimiter="_",
-            word_modifier=case if case else Case.lower
-        ).replace(" ", "_").strip("_")
+        return (
+            String.build(
+                words=self.__words__(delimiters, split_on_first_upper),
+                delimiter="_",
+                word_modifier=case if case else Case.lower,
+            )
+            .replace(" ", "_")
+            .strip("_")
+        )
 
     def toggle(self) -> String:
         """
         Random upper/lower case letters
         """
         from random import choice
+
         return String("".join(choice((str.upper, str.lower))(letter) for letter in self))
 
     def as_str(self) -> str:
@@ -197,7 +256,7 @@ class String(str):
         """
         return str(self)
 
-# region Overrides
+    # region Overrides
 
     # NOTE: Type type overrides below are necessary to pass mypy checks, because there was no apparent fix
 
@@ -236,6 +295,7 @@ class String(str):
         return (String(part[0]), String(part[1]), String(part[2]))
 
     if sys.version_info >= (3, 9):
+
         def removeprefix(self, __prefix: str) -> String:
             return String(super().removeprefix(__prefix))
 
@@ -295,4 +355,4 @@ class String(str):
 
     # endregion
 
-# endregion
+    # endregion

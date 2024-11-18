@@ -1,26 +1,21 @@
 VENV_NAME?=.venv
 PYTHON=${VENV_NAME}/bin/python
-PYTHON_VERSION=3.12.5
+PYTHON_VERSION=3.13.0
 SRC_DIR=src
 RELEASE=0.4.0
 
 # By default, set up the virtual environment and install dependencies
-all: venv setup
+all: setup
 
-venv:
-	# Create virtual environment
-	test -d $(VENV_NAME) || python -m venv $(VENV_NAME)
-	. $(VENV_NAME)/bin/activate
-	touch venv
-
-poetry:
+.venv/bin/activate: pyproject.toml
 	pipx install poetry
-	poetry env use 3.12.5
+	poetry self add poetry-plugin-sort
+	poetry env use ${PYTHON_VERSION}
 
-install-dependencies: venv poetry
+install-dependencies: .venv/bin/activate
 	poetry install
 
-install-build-dependencies: venv poetry
+install-build-dependencies:
 	poetry install --without dev,test
 
 setup: install-dependencies
@@ -42,8 +37,7 @@ typecheck: install-dependencies
 test: install-dependencies
 	$(VENV_NAME)/bin/pytest
 
-build: clean code-check test
-	poetry install --without dev,test --sync
+build: clean code-check test install-build-dependencies
 	poetry build
 
 publish: build
@@ -57,6 +51,7 @@ release:
 	git push origin --tags
 
 clean:
+	pipx uninstall poetry
 	# Clean up generated folders and files
 	rm -rf $(VENV_NAME)
 	-find . -name "*.pyc" -exec rm {} \;
@@ -66,6 +61,6 @@ clean:
 	-find . -name ".test_results" -exec rm -r {} \;
 	-find . -name "build" -exec rm -r {} \;
 	-find . -name "dist" -exec rm -r {} \;
-	touch venv
+	touch pyproject.toml
 
 .PHONY: all venv setup format code-check lint typecheck test build publish release clean
